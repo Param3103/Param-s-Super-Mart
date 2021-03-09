@@ -45,3 +45,5 @@ class seller_management:
                 command += ';'
         mycursor.execute(command)
         mydb.commit()
+
+seller_management
