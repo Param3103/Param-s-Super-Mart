@@ -2,7 +2,7 @@ import mysql.connector
 
 
 class stock_management:
-    def adding_new_type(item_types):
+    def adding_new_type(item_type):
         mydb = mysql.connector.connect(
             host="localhost",
             user="root",
@@ -10,10 +10,10 @@ class stock_management:
         )
 
         mycursor = mydb.cursor()
-        command = "insert into stock_type(stock_type) values (\"{}\");".format(item_types)
+        command = "insert into stock_type(stock_type) values (\"{}\");".format(item_type)
         mycursor.execute(command)
         mydb.commit()
-        print("{} has been added into the database.".format(item_types))
+        print("{} has been added into the database.".format(item_type))
         # done
 
     def adding_new_stock(stock_name, type, quantity, price_when_bought, seller, price_for_customers):
@@ -24,7 +24,7 @@ class stock_management:
         )
 
         mycursor = mydb.cursor()
-        type_id = mycursor.execute("select type_id from stock_type where stock_type={1};".format(type))
+        type_id = mycursor.execute("select type_id from stock_type where stock_type={0};".format(type))
         seller_id = mycursor.execute("select seller_id from stock_details where name={0};".format(seller))
         mycursor.execute("insert into  stock_details values({3}, {4}, {0}, {1}, {5}, {2};".format(quantity, \
                                                     price_for_customers, price_when_bought, stock_name, type_id, seller_id))
