@@ -6,7 +6,7 @@ class stock_management:
         mydb = mysql.connector.connect(
             host="localhost",
             user="root",
-            database="param_super_mart",
+            database="param_super_mart"
         )
 
         mycursor = mydb.cursor()
@@ -24,10 +24,11 @@ class stock_management:
         )
 
         mycursor = mydb.cursor()
-        type_id = mycursor.execute("select type_id from stock_type where stock_type={0};".format(type))
-        seller_id = mycursor.execute("select seller_id from stock_details where name={0};".format(seller))
-        mycursor.execute("insert into  stock_details values({3}, {4}, {0}, {1}, {5}, {2};".format(quantity, \
+        type_id = mycursor.execute("select type_id from stock_type where stock_type=\'{0}\';".format(type))
+        seller_id = mycursor.execute("select seller_id from stock_details where stock_name=\'{0}\';".format(seller))
+        mycursor.execute("insert into  stock_details values({3}, \'{4}\', \'{0}\', \'{1}\', {5}, {2};".format(quantity, \
                                                     price_for_customers, price_when_bought, stock_name, type_id, seller_id))
+        mydb.commit()
         print("new stock has been added.")
     def replenishing_stock(name, quantity):
         mydb = mysql.connector.connect(
@@ -37,7 +38,8 @@ class stock_management:
         )
 
         mycursor = mydb.cursor()
-        current_qty = int(mycursor.execute("select quantity from stock_details where stock_name={0};".format(name)))
+        current_qty = int(mycursor.execute("select quantity from stock_details where stock_name=\'{0}\';".format(name)))
         new_qty = current_qty + quantity
-        mycursor.execute("update stock_details set quantity={1} where stock_name={0}".format(name,new_qty))
+        mycursor.execute("update stock_details set quantity={1} where stock_name=\'{0}\'".format(name,new_qty))
+        mydb.commit()
 stock_management
