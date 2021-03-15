@@ -27,18 +27,33 @@ class Testing_Stock_Management(unittest.TestCase):
         self.my_cursor.execute("SELECT * FROM stock_type;")
         values = self.my_cursor.fetchall()
         self.assertIn((1, 'Coconut'), values)
+        # done
     def test_adding_new_stock(self):
-        stock_management.adding_new_type("Coconut")
-        seller_management.add_new_seller("Singapore Farm", "", "", "")
-        self.mydb.commit()
-        stock_management.adding_new_stock("sammy's coconut", "Coconut", 50, 2.50, "Singapore Farm", 3.00)
-        self.mydb.commit()
-        self.my_cursor.execute("SELECT * FROM stock_details;")
-        values = self.my_cursor.fetchall()
-        print(values)
-        # still need to work on this
-       # self.assertIn((1, "sammy's coconut", 1, 50, float(2.50), 1, float(3.00)), values)
+# STILL NEED TO WORK ON THIS
+       # create new stock type
+       stock_management.adding_new_type("Coconut")
+       self.mydb.commit()
+       # create new seller
+       seller_management.add_new_seller('Raj', None, None, None)
+       self.mydb.commit()
+       # add new stock...
+       stock_management.adding_new_stock("Raj's Coconut", "Coconut", 50, 5.00, "Raj", 5.50)
+       self.mydb.commit()
+       self.my_cursor.execute("SELECT * FROM stock_details;")
+       values = self.my_cursor.fetchall()
+       self.assertIn([1, "Raj's Coconut", 1, 50, 5.00, 1, 5.50], values)
     def test_replenishing_stock(self):
-        pass
+        # create new stock type
+        stock_management.adding_new_type("Coconut")
+        self.mydb.commit()
+        # create new seller
+        seller_management.add_new_seller('Raj', None, None, None)
+        self.mydb.commit()
+        # add new stock...
+        stock_management.adding_new_stock("Raj's Coconut", "Coconut", 50, 5.00, "Raj", 5.50)
+        self.mydb.commit()
+        stock_management.replenishing_stock("Raj's Coconut", 50)
+        qty = self.my_cursor.execute("select quantity from stock_details;")
+        self.assertEqual(qty, 100)
 if __name__ == '__main__':
     unittest.main()
