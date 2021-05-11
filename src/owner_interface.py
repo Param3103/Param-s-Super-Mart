@@ -53,7 +53,7 @@ elif task == 4:
 elif task == 5:
     type = input("Which kind of stock are you adding? ")
     stock_name = input("What is the name of this " + type + "? ")
-    quantity = int(input("How many of {0} do you have right now? ").format(stock_name))
+    quantity = int(input("How many of {0} do you need? ".format(stock_name)))
     price_when_bought = float(input("How much did you buy it for? "))
     seller = input("Who did you buy it from? ")
     mycursor.execute("select seller_id from seller_details where name='{0}'".format(seller))

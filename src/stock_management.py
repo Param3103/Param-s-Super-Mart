@@ -30,10 +30,7 @@ class stock_management:
         my_cursor.execute(type_id_command)
 
         type_id = my_cursor.fetchall()
-
-        my_cursor.execute("INSERT INTO stock_details (stock_name, type_id, quantity, sale_price, seller_id,\
-         purchase_price) VALUES (\'{3}\', {4}, {0}, {1}, {5}, {2});".format(quantity, price_for_customers, \
-        price_when_bought, stock_name, type_id[0][0], seller_id))
+        my_cursor.execute("INSERT INTO stock_details (stock_name, type_id, quantity, sale_price, seller_id,purchase_price) VALUES (\'{3}\', {4}, {0}, {1}, {5}, {2});".format(quantity, price_for_customers,price_when_bought, stock_name, type_id[0][0], seller_id[0]))
         mydb.commit()
         print("new stock has been added.")
 
