@@ -1,9 +1,18 @@
 from stock_management import stock_management
 from seller_management import seller_management
+import mysql.connector
+
+mydb = mysql.connector.connect(
+    host="localhost",
+    user="root",
+    database="param_super_mart"
+)
+
+mycursor = mydb.cursor()
 
 task = int(input("Hello Param, what will you like to do today?\nEnter 1 if you would like to add new type of items to your store.\
              \nEnter 2 if you would like to replenish existing stock.\nEnter 3 if you would like to add new vendors to your list.\
-                 \nEnter 4 if you would like to undate details of your vendor."))
+                 \nEnter 4 if you would like to undate details of your vendor.\nEnter 5 if you want to add new stock of items."))
 if task == 1:
     print("Adding new type of item to store.")
     stock_type = input("What type of item are you adding to the store? ")
@@ -41,3 +50,13 @@ elif task == 4:
         new_value = input('Plz input the new contact detail now. ')
         new_values.append(new_value)
     seller_management.update_seller_contact(identifying_keys, identifying_values, tbc_keys, new_values)
+elif task == 5:
+    type = input("Which kind of stock are you adding? ")
+    stock_name = input("What is the name of this " + type + "? ")
+    quantity = int(input("How many of {0} do you have right now? ").format(stock_name))
+    price_when_bought = float(input("How much did you buy it for? "))
+    seller = input("Who did you buy it from? ")
+    mycursor.execute("select seller_id from seller_details where name='{0}'".format(seller))
+    seller_id = mycursor.fetchall()[0]
+    price_for_customers = float(input("How much are you selling it for? "))
+    stock_management.adding_new_stock(stock_name, type, quantity, price_when_bought, seller_id, price_for_customers)
