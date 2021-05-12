@@ -1,14 +1,14 @@
-from stock_management import stock_management
-from seller_management import seller_management
+from stock_management import StockManagement
+from seller_management import SellerManagement
 import mysql.connector
 
-mydb = mysql.connector.connect(
+my_db = mysql.connector.connect(
     host="localhost",
     user="root",
     database="param_super_mart"
 )
 
-mycursor = mydb.cursor()
+my_cursor = my_db.cursor()
 
 task = int(input("Hello Param, what will you like to do today?\nEnter 1 if you would like to add new type of items to your store.\
              \nEnter 2 if you would like to replenish existing stock.\nEnter 3 if you would like to add new vendors to your list.\
@@ -16,19 +16,19 @@ task = int(input("Hello Param, what will you like to do today?\nEnter 1 if you w
 if task == 1:
     print("Adding new type of item to store.")
     stock_type = input("What type of item are you adding to the store? ")
-    stock_management.adding_new_type(str(stock_type))
+    StockManagement.adding_new_type(str(stock_type))
 elif task == 2:
     print("Replenishing existing stock. ")
     stock_name = input("What item are you replenishing? ")
     qty = int(input("How many of these items are you adding? "))
-    stock_management.replenishing_stock(stock_name, qty)
+    StockManagement.replenishing_stock(stock_name, qty)
 elif task == 3:
     print("Adding new vendors.")
     name = input("What is the name of this vendor? ")
     phone = input("What is his phone number? ")
     email = input("What is his email id? ")
     address = input("What is his address? ")
-    seller_management.add_new_seller(name, phone, email, address)
+    SellerManagement.add_new_seller(name, phone, email, address)
 elif task == 4:
     print("Updating details of vendors.")
     num_identifying_keys = int(input('How many details do you have to identify the vendor whose details you need to update? '))
@@ -49,14 +49,14 @@ elif task == 4:
         tbc_keys.append(tbc_key)
         new_value = input('Plz input the new contact detail now. ')
         new_values.append(new_value)
-    seller_management.update_seller_contact(identifying_keys, identifying_values, tbc_keys, new_values)
+    SellerManagement.update_seller_contact(identifying_keys, identifying_values, tbc_keys, new_values)
 elif task == 5:
     type = input("Which kind of stock are you adding? ")
     stock_name = input("What is the name of this " + type + "? ")
     quantity = int(input("How many of {0} do you need? ".format(stock_name)))
     price_when_bought = float(input("How much did you buy it for? "))
     seller = input("Who did you buy it from? ")
-    mycursor.execute("select seller_id from seller_details where name='{0}'".format(seller))
-    seller_id = mycursor.fetchall()[0]
+    my_cursor.execute("select seller_id from seller_details where name='{0}'".format(seller))
+    seller_id = my_cursor.fetchall()[0]
     price_for_customers = float(input("How much are you selling it for? "))
-    stock_management.adding_new_stock(stock_name, type, quantity, price_when_bought, seller_id, price_for_customers)
+    StockManagement.adding_new_stock(stock_name, type, quantity, price_when_bought, seller_id, price_for_customers)

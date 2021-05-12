@@ -2,27 +2,27 @@ import mysql.connector
 
 
 
-class seller_management:
+class SellerManagement:
     def add_new_seller(name, phone, email, address):
-        mydb = mysql.connector.connect(
+        my_db = mysql.connector.connect(
             host="localhost",
             user="root",
             database="param_super_mart"
         )
 
-        mycursor = mydb.cursor()
+        my_cursor = my_db.cursor()
         command = "insert into seller_details(name, phone, email, address) values (\'{0}\', \'{1}\', \'{2}\', \'{3}\');".format(name, phone, email, address)
-        mycursor.execute(command)
-        mydb.commit()
+        my_cursor.execute(command)
+        my_db.commit()
 
     def update_seller_contact(finder_keys, finder_values, tbc_keys, new_values):
-        mydb = mysql.connector.connect(
+        my_db = mysql.connector.connect(
             host="localhost",
             user="root",
             database="param_super_mart"
         )
 
-        mycursor = mydb.cursor()
+        my_cursor = my_db.cursor()
         command = "UPDATE seller_details set "
         for tbc_key in tbc_keys:
             command += tbc_key
@@ -43,7 +43,7 @@ class seller_management:
                 command += ', '
             else:
                 command += ';'
-        mycursor.execute(command)
-        mydb.commit()
+        my_cursor.execute(command)
+        my_db.commit()
 
-seller_management
+SellerManagement
