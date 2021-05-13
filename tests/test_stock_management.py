@@ -73,6 +73,16 @@ class Testing_Stock_Management(unittest.TestCase):
         self.my_cursor.execute("select quantity from stock_details;")
         qty = self.my_cursor.fetchall()
         self.assertEqual(qty[0][0], 100)
+    def test_finding_stock(self):
+        # create new stock type
+        stock_management.adding_new_type("Coconut")
+        self.mydb.commit()
+        # create new seller
+        seller_management.add_new_seller('Raj', None, None, None)
+        self.mydb.commit()
+        # add new stock...
+        stock_management.adding_new_stock("Raj Coconut", "Coconut", 50, 5.00, 1, 5.50)
+        self.mydb.commit()
 
 if __name__ == '__main__':
     unittest.main()

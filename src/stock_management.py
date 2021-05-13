@@ -49,4 +49,25 @@ class StockManagement:
         my_cursor.execute("update stock_details set quantity={1} where stock_name=\'{0}\';".format(name,new_qty))
         my_db.commit()
 
+    def finding_stock(keys, values):
+        my_db = mysql.connector.connect(
+            host="localhost",
+            user="root",
+            database="param_super_mart",
+        )
+
+        my_cursor = my_db.cursor()
+        command = "select * from stock_details where "
+        for key in keys:
+            command += key
+            command += '='
+            command += values[keys.index(key)]
+            if keys.index(key) != len(keys) - 1:
+                command += " and "
+            else:
+                command += ';'
+        my_cursor.execute(command)
+        my_db.commit()
+
+
 StockManagement
