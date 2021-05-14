@@ -58,17 +58,21 @@ class StockManagement:
         )
 
         my_cursor = my_db.cursor()
-        command = "select * from stock_details where "
+        command = 'select * from stock_details where '
         for key in keys:
             command += key
             command += '='
+            command +='\''
             command += values[keys.index(key)]
+            command += '\''
             if keys.index(key) != len(keys) - 1:
-                command += " and "
+                command += ' and '
             else:
                 command += ';'
+        print(command)
         my_cursor.execute(command)
-        my_db.commit()
+        stocks = my_cursor.fetchall()
+        return(stocks)
 
 
 StockManagement

@@ -81,6 +81,9 @@ class Testing_Stock_Management(unittest.TestCase):
         # add new stock...
         StockManagement.adding_new_stock("Raj Coconut", "Coconut", 50, 5.00, 1, 5.50)
         self.mydb.commit()
+        # finding stock
+        stock = StockManagement.finding_stock(["stock_name"], ["Raj Coconut"])
+        self.assertIn((1, "Raj Coconut", 1, 50, 5.5, 1, 5.0), stock)
 
 if __name__ == '__main__':
     unittest.main()
