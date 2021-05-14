@@ -1,7 +1,7 @@
 import unittest
 import mysql.connector
-from src.stock_management import stock_management
-from src.seller_management import seller_management
+from src.stock_management import StockManagement
+from src.seller_management import SellerManagement
 class Testing_Stock_Management(unittest.TestCase):
     def setUp(self):
         self.mydb = mysql.connector.connect(
@@ -31,43 +31,41 @@ class Testing_Stock_Management(unittest.TestCase):
 
 
     def test_adding_new_type(self):
-        stock_management.adding_new_type("Coconut")
+        StockManagement.adding_new_type("Coconut")
         self.my_cursor.execute("SELECT * FROM stock_type;")
         values = self.my_cursor.fetchall()
         self.assertIn((1, 'Coconut'), values)
         # done
     def test_adding_new_stock(self):
        # create new stock type
-       stock_management.adding_new_type("Coconut")
+       StockManagement.adding_new_type("Coconut")
        self.mydb.commit()
 
        # create new seller
-       seller_management.add_new_seller("Raj", "","", "")
+       SellerManagement.add_new_seller("Raj", "","", "")
        self.mydb.commit()
 
        # add new stock...
-       stock_management.adding_new_stock("Raj Coconut", "Coconut", 50, 5.00, 1, 5.50)
+       StockManagement.adding_new_stock("Raj Coconut", "Coconut", 50, 5.00, 1, 5.00)
        self.mydb.commit()
 
        # test
        self.my_cursor.execute("SELECT * FROM stock_details;")
        values = self.my_cursor.fetchall()
-       print(values)
-
-       self.assertIn((1, 'Raj Coconut', 1, 50, 5.5, 1, 5.0), values)
+       self.assertIn((1, 'Raj Coconut', 1, 50, 5.0, 1, 5.0), values)
         # done
     def test_replenishing_stock(self):
         # create new stock type
-        stock_management.adding_new_type("Coconut")
+        StockManagement.adding_new_type("Coconut")
         self.mydb.commit()
         # create new seller
-        seller_management.add_new_seller('Raj', None, None, None)
+        SellerManagement.add_new_seller('Raj', '', '', '')
         self.mydb.commit()
         # add new stock...
-        stock_management.adding_new_stock("Raj Coconut", "Coconut", 50, 5.00, 1, 5.50)
+        StockManagement.adding_new_stock("Raj Coconut", "Coconut", 50, 5.00, 1, 5.50)
         self.mydb.commit()
 
-        stock_management.replenishing_stock("Raj Coconut", 50)
+        StockManagement.replenishing_stock("Raj Coconut", 50)
         self.mydb.commit()
 
         self.my_cursor.execute("select quantity from stock_details;")
@@ -75,13 +73,13 @@ class Testing_Stock_Management(unittest.TestCase):
         self.assertEqual(qty[0][0], 100)
     def test_finding_stock(self):
         # create new stock type
-        stock_management.adding_new_type("Coconut")
+        StockManagement.adding_new_type("Coconut")
         self.mydb.commit()
         # create new seller
-        seller_management.add_new_seller('Raj', None, None, None)
+        SellerManagement.add_new_seller('Raj', None, None, None)
         self.mydb.commit()
         # add new stock...
-        stock_management.adding_new_stock("Raj Coconut", "Coconut", 50, 5.00, 1, 5.50)
+        StockManagement.adding_new_stock("Raj Coconut", "Coconut", 50, 5.00, 1, 5.50)
         self.mydb.commit()
 
 if __name__ == '__main__':

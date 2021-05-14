@@ -15,7 +15,7 @@ class StockManagement:
         my_db.commit()
         # done
 
-    def adding_new_stock(stock_name, type, quantity, price_when_bought, seller_id, price_for_customers):
+    def adding_new_stock(stock_name, stock_type, quantity, price_when_bought, seller_id, price_for_customers):
 
         my_db = mysql.connector.connect(
             host="localhost",
@@ -25,12 +25,13 @@ class StockManagement:
         my_cursor = my_db.cursor()
 
         price_for_customers = float(price_for_customers)
+        price_when_bought = float(price_when_bought)
 
-        type_id_command = "select type_id from stock_type where stock_type=\'" + type + "\';"
+        type_id_command = "select type_id from stock_type where stock_type=\'" + stock_type + "\';"
         my_cursor.execute(type_id_command)
 
-        type_id = my_cursor.fetchall()
-        my_cursor.execute("INSERT INTO stock_details (stock_name, type_id, quantity, sale_price, seller_id,purchase_price) VALUES (\'{3}\', {4}, {0}, {1}, {5}, {2});".format(quantity, price_for_customers,price_when_bought, stock_name, type_id[0][0], seller_id[0]))
+        type_id = my_cursor.fetchall()[0]
+        my_cursor.execute("INSERT INTO stock_details (stock_name, type_id, quantity, sale_price, seller_id,purchase_price )VALUES (\'{3}\', {4}, {0}, {1}, {5}, {2});".format(quantity, price_for_customers, price_when_bought, stock_name, type_id[0], seller_id))
         my_db.commit()
         print("new stock has been added.")
 
