@@ -1,29 +1,24 @@
 import mysql.connector
 
-
-
-class SellerManagement:
-    def __init__(self):
+class Customer:
+    def __init__(self, name, phone, email, address):
+        self.name = name
+        self.email = email
+        self.address = address
+        self.phone = phone
         self.my_db = mysql.connector.connect(
             host="localhost",
             user="root",
             database="param_super_mart"
         )
         self.my_cursor = self.my_db.cursor()
-    def add_new_seller(self, name, phone, email, address):
-        command = "insert into seller_details(name, phone, email, address) values (\'{0}\', \'{1}\', \'{2}\', \'{3}\');".format(name, phone, email, address)
+    def add_new_customer(self):
+        command = "insert into customer_details(name, phone, email, address) values (\'{0}\', \'{1}\', \'{2}\', \'{3}\');".format(
+            self.name, self.phone, self.email, self.address)
         self.my_cursor.execute(command)
         self.my_db.commit()
-
-    def update_seller_contact(self, finder_keys, finder_values, tbc_keys, new_values):
-        self.my_db = mysql.connector.connect(
-            host="localhost",
-            user="root",
-            database="param_super_mart"
-        )
-
-        self.my_cursor = self.my_db.cursor()
-        command = "UPDATE seller_details set "
+    def update_customer_contact(self, finder_keys, finder_values, tbc_keys, new_values):
+        command = "UPDATE customer_details set "
         for tbc_key in tbc_keys:
             command += tbc_key
             command += '='
@@ -39,11 +34,10 @@ class SellerManagement:
             command += '\''
             command += finder_values[finder_keys.index(finder_key)]
             command += '\''
-            if finder_keys[-1] != finder_key:
+            if tbc_keys[-1] != tbc_key:
                 command += ', '
             else:
                 command += ';'
         self.my_cursor.execute(command)
         self.my_db.commit()
 
-SellerManagement

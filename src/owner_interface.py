@@ -12,7 +12,8 @@ my_cursor = my_db.cursor()
 
 task = int(input("Hello Param, what will you like to do today?\nEnter 1 if you would like to add new type of items to your store.\
              \nEnter 2 if you would like to replenish existing stock.\nEnter 3 if you would like to add new vendors to your list.\
-                 \nEnter 4 if you would like to update details of your vendor.\nEnter 5 if you want to add new stock of items.\nEnter 6 if you want to find stock. "))
+                 \nEnter 4 if you would like to update details of your vendor.\nEnter 5 if you want to add new stock of items.\nEnter 6 if you want to find stock.\
+                  \n Enter 7 if you want to add new customer. \n Enter 8 if you want to update existing customer's details. "))
 if task == 1:
     print("Adding new type of item to store.")
     stock_type = input("What type of item are you adding to the store? ")
@@ -61,4 +62,19 @@ elif task == 5:
     price_for_customers = float(input("How much are you selling it for? "))
     StockManagement.adding_new_stock(stock_name, type, quantity, price_when_bought, seller_id, price_for_customers)
 elif task == 6:
-    num = int(input("How many types of information do you have about this item."))
+    qty = input("How many types of information do you have abt this item? ")
+    keys = []
+    values = []
+    for i in range(qty):
+        key = input("Do you have the name, type or seller of this item? ")
+        keys.append(key)
+        value = input("What is the {0} of the item? ".format(key))
+        values.append(value)
+    items = StockManagement.finding_stock(keys, values)
+    for item in items:
+        print(item)
+
+elif task == 7:
+    pass
+elif task == 8:
+    pass
