@@ -81,8 +81,14 @@ class Testing_Stock_Management(unittest.TestCase):
         # add new stock...
         StockManagement.adding_new_stock("Raj Coconut", "Coconut", 50, 5.00, 1, 5.50)
         self.mydb.commit()
-        # finding stock
+        # finding stock by name
         stock = StockManagement.finding_stock(["stock_name"], ["Raj Coconut"])
+        self.assertIn((1, "Raj Coconut", 1, 50, 5.5, 1, 5.0), stock)
+        # finding stock by seller
+        stock = StockManagement.finding_stock(["seller_id"], [1])
+        self.assertIn((1, "Raj Coconut", 1, 50, 5.5, 1, 5.0), stock)
+        # finding stock by type
+        stock = StockManagement.finding_stock(["type_id"], [1])
         self.assertIn((1, "Raj Coconut", 1, 50, 5.5, 1, 5.0), stock)
 
 if __name__ == '__main__':

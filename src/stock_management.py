@@ -60,11 +60,16 @@ class StockManagement:
         my_cursor = my_db.cursor()
         command = 'select * from stock_details where '
         for key in keys:
-            command += key
-            command += '='
-            command +='\''
-            command += values[keys.index(key)]
-            command += '\''
+            if type(values[keys.index(key)]) != int:
+                command += key
+                command += '='
+                command +='\''
+                command += values[keys.index(key)]
+                command += '\''
+            else:
+                command += key
+                command += '='
+                command += str(values[keys.index(key)])
             if keys.index(key) != len(keys) - 1:
                 command += ' and '
             else:
