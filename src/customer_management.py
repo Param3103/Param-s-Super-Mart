@@ -40,4 +40,6 @@ class Customer:
                 command += ';'
         self.my_cursor.execute(command)
         self.my_db.commit()
+    def sell_item_to_customer(self, purchase_id, customer_id, items_bought, qty_of_items):
+        pass
 

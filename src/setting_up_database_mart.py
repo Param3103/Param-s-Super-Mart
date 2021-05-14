@@ -31,9 +31,7 @@ mycursor.execute("CREATE TABLE stock_details(stock_id int auto_increment, stock_
 # below query makes customer details table
 mycursor.execute("CREATE TABLE customer_details(customer_id int auto_increment, name varchar(50), phone varchar(20), email varchar(100), address varchar(200), primary key (customer_id));")
 """
-"""
-mycursor.execute("CREATE TABLE customer_purchase_details(purchase_id int auto_increment, customer_id int, item_bought varchar(500), quantity int, net_price float, foreign key(customer_id) references customer_details(customer_id), primary key (purchase_id));")
-"""
+mycursor.execute("ALTER TABLE customer_purchase_details ALTER COLUMN )
 """
 mycursor.execute("CREATE TABLE income_management(purchase_id int, customer_id int, total_cost float, foreign key (purchase_id) references customer_purchase_details(purchase_id), foreign key (customer_id) references customer_details(customer_id));")
 """
