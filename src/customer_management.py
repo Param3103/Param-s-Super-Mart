@@ -40,6 +40,17 @@ class Customer:
                 command += ';'
         self.my_cursor.execute(command)
         self.my_db.commit()
-    def sell_item_to_customer(self, purchase_id, customer_id, items_bought, qty_of_items):
-        pass
+    def sell_item_to_customer(self, customer_id, items_bought_stock_id, qty_of_items):
+        net_cost = 0
 
+        for item_stock_id in items_bought_stock_id:
+            cost = 0
+            item_price = self.my_cursor.execute("select sale_price from stock_details where stock_id={0};".format(item_stock_id))
+
+            if qty_of_items[items_bought_stock_id.index(item_stock_id)] is not None and item_price is not None:
+                cost += item_price * qty_of_items[items_bought_stock_id.index(item_stock_id)]
+            net_cost += cost
+            command = "insert into customer_purchase_details(customer_id, item_bought, quantity, net_price) values({0}, {1}, {2}, {3});".format(customer_id, item_stock_id, qty_of_items[items_bought_stock_id.index(item_stock_id)], cost)
+            self.my_cursor.execute(command)
+            self.my_db.commit()
+        return(net_cost)

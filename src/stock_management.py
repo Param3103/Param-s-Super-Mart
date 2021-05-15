@@ -10,7 +10,7 @@ class StockManagement:
         )
 
         self.my_cursor = self.my_db.cursor()
-    def adding_new_type(self,item_type):
+    def adding_new_type(self, item_type):
         command = "insert into stock_type(stock_type) values (\"{}\");".format(item_type)
         self.my_cursor.execute(command)
         self.my_db.commit()
