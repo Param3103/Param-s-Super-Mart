@@ -71,7 +71,7 @@ class Testing_Customer_Management(unittest.TestCase):
         self.my_db.commit()
 
         # conducting transaction
-        Customer.sell_item_to_customer(self, 1, 1, [1], [50])
+        Customer.sell_item_to_customer(1, 1, [1], [50])
 
         self.my_db.commit()
 
