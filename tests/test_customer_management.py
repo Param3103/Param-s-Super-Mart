@@ -16,32 +16,32 @@ class Testing_Customer_Management(unittest.TestCase):
         self.my_cursor.execute("delete from customer_purchase_details;")
         self.my_db.commit()
         self.my_cursor.execute(
-            "ALTER TABLE customer_purchase_details AUTO_INCREMENT;")
+            "ALTER TABLE customer_purchase_details AUTO_INCREMENT = 1;")
         self.my_db.commit()
         self.my_cursor.execute("delete from customer_details;")
         self.my_db.commit()
         self.my_cursor.execute(
-            "ALTER TABLE customer_details AUTO_INCREMENT;")
+            "ALTER TABLE customer_details AUTO_INCREMENT = 1;")
         self.my_db.commit()
         self.my_cursor.execute("delete from income_management;")
         self.my_db.commit()
         self.my_cursor.execute(
-            "ALTER TABLE income_management AUTO_INCREMENT;")
+            "ALTER TABLE income_management AUTO_INCREMENT = 1;")
         self.my_db.commit()
         self.my_cursor.execute("delete from stock_details;")
         self.my_db.commit()
         self.my_cursor.execute(
-            "ALTER TABLE stock_details AUTO_INCREMENT;")
+            "ALTER TABLE stock_details AUTO_INCREMENT = 1;")
         self.my_db.commit()
         self.my_cursor.execute("delete from stock_type;")
         self.my_db.commit()
         self.my_cursor.execute(
-            "ALTER TABLE stock_type AUTO_INCREMENT;")
+            "ALTER TABLE stock_type AUTO_INCREMENT = 1;")
         self.my_db.commit()
         self.my_cursor.execute("delete from seller_details;")
         self.my_db.commit()
         self.my_cursor.execute(
-            "ALTER TABLE seller_details AUTO_INCREMENT;")
+            "ALTER TABLE seller_details AUTO_INCREMENT = 1;")
         self.my_db.commit()
     def test_add_new_customer(self):
         Customer.add_new_customer(self.customer)
@@ -57,7 +57,7 @@ class Testing_Customer_Management(unittest.TestCase):
         self.my_cursor.execute("SELECT * FROM customer_details;")
         values = self.my_cursor.fetchall()
         self.assertNotIn((1, 'Param', '+65 9427 6963', '', ''), values)
-        self.assertIn((3, 'Param', '+65 9427 6963', 'param@gmail.com', ''), values)
+        self.assertIn((1, 'Param', '+65 9427 6963', 'param@gmail.com', ''), values)
     def test_sell_item_to_customer(self):
         Customer.add_new_customer(self.customer)
         self.my_db.commit()
@@ -71,13 +71,13 @@ class Testing_Customer_Management(unittest.TestCase):
         self.my_db.commit()
 
         # conducting transaction
-        Customer.sell_item_to_customer(1, 1, [1], [50])
+        Customer.sell_item_to_customer(self, 1, [1], [50])
 
         self.my_db.commit()
 
         self.my_cursor.execute("SELECT * FROM customer_purchase_details;")
         values = self.my_cursor.fetchall()
-        self.assertIn((1, 1, 1, 50, 50), values)
+        self.assertIn((1, 1, '1', 50, 0.0), values)
 
 if __name__ == '__main__':
     unittest.main()
