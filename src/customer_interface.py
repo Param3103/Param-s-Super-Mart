@@ -15,7 +15,7 @@ print("Welcome to Param's Super mart!")
 
 new = input("Hi, Have you visited us before? Input Y for yes and N for no. ")
 while new not in ["Y","N"]:
-    input("Error! Input Y if you have visited us before and N if you have not. ")
+    new = input("Error! Input Y if you have visited us before and N if you have not. ")
 if new == "N":
     print("We would like to know your details so we can customise your experience with our shop to you choices. ")
     name = input("please input your Name. ")
