@@ -16,15 +16,15 @@ class Testing_Seller_Management(unittest.TestCase):
         self.my_db.commit()
 
     def test_add_new_seller(self):
-        SellerManagement.add_new_seller("Param", "+65 9427 6963", "", "")
+        SellerManagement.add_new_seller(self, "Param", "+65 9427 6963", "", "")
         self.my_db.commit()
         self.my_cursor.execute("SELECT * FROM seller_details;")
         values = self.my_cursor.fetchall()
         self.assertIn((1, 'Param', '+65 9427 6963', '', ''), values)
     def test_update_seller_contact(self):
-        SellerManagement.add_new_seller("Param", "+65 9427 6963", "", "")
+        SellerManagement.add_new_seller(self, "Param", "+65 9427 6963", "", "")
         self.my_db.commit()
-        SellerManagement.update_seller_contact(['Name'], ['Param'], ['Email'], ['param@gmail.com'])
+        SellerManagement.update_seller_contact(self, ['Name'], ['Param'], ['Email'], ['param@gmail.com'])
         self.my_db.commit()
         self.my_cursor.execute("SELECT * FROM seller_details;")
         values = self.my_cursor.fetchall()
