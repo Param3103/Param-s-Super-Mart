@@ -1,5 +1,6 @@
 from customer_management import Customer
 import mysql.connector
+from constants import *
 
 my_db = mysql.connector.connect(
     host="localhost",
@@ -13,46 +14,32 @@ my_cursor = my_db.cursor()
 
 print("Welcome to Param's Super mart!")
 
-new = input("Hi, Have you visited us before? Input Y for yes and N for no. ")
+
 while new not in ["Y","N"]:
     new = input("Error! Input Y if you have visited us before and N if you have not. ")
 if new == "N":
     print("We would like to know your details so we can customise your experience with our shop to you choices. ")
-    name = input("please input your Name. ")
-    phone = input("please input your Phone. ")
-    email = input("please input your Email. ")
-    address = input("please input your Address. ")
     Customer.add_new_customer(Customer(name, phone, email, address))
 else:
-    name = input("What is your name? ")
     command = "select customer_id, name, phone, email, address from customer_details where name={};".format(name)
     my_cursor.execute(command)
     values = my_cursor.fetchall()
     customer_id = values[0]
     print(values[1:4])
-    update = input("Do you want to update your details? Input Y for yes and N for no. ")
     while update not in ["Y", "N"]:
         update = input("Error! Input Y if you want to update your details and N if you don't ")
     if update == "N":
         pass
     else:
-        num_identifying_keys = int(input('How many details do you have to identify the contact you need to update? '))
         identifying_keys = []
         identifying_values = []
         for num in range(num_identifying_keys):
-            identifying_key = input(
-                'what kind of detail do you have? \nName, Phone, EmailID or Address. Plz input in same form.')
             identifying_keys.append(identifying_key)
-            identifying_value = input('Plz input the contact detail now. ')
             identifying_values.append(identifying_value)
-        num_tbc_keys = int(input('How many details of this contact do you want to change? '))
         tbc_keys = []
         new_values = []
         for num in range(num_tbc_keys):
-            tbc_key = input(
-                'what kind of detail do you want to change? \nName, Phone, EmailID or Address. Plz input in same form.')
             tbc_keys.append(tbc_key)
-            new_value = input('Plz input the new contact detail now. ')
             new_values.append(new_value)
         Customer.update_existing_contact(None, identifying_keys, identifying_values, tbc_keys, new_values)
 command = "select stock_type from stock_type;"
@@ -67,7 +54,6 @@ basket_stock_id = []
 basket_qty = []
 cost = 0
 while continue_buying:
-    item_type_bought = input("What kind of item do you want to buy? ")
     command = "select type_id from stock_type where stock_type={0}".format(item_type_bought)
     my_cursor.execute(command)
     type_id = my_cursor.fetchall()[0]
@@ -104,7 +90,6 @@ while continue_buying:
     else:
         print(" sorry, we don't offer this item in our store! ")
     Customer.sell_item_to_customer(None, customer_id, basket_stock_id, qty)
-    con = input("Do you want to continue buying?Input Y if yes and N if no.")
     if con == "Y":
         continue_buying = True
     elif con == "N":
