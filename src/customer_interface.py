@@ -1,6 +1,5 @@
 from customer_management import Customer
 import mysql.connector
-from c
 
 my_db = mysql.connector.connect(
     host="localhost",
